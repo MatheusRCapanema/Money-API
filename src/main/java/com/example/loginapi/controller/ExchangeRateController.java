@@ -30,24 +30,21 @@ public class ExchangeRateController {
         String expectedExchangeRateOutput = null;
         ArrayList otherCurrencies = new ArrayList();
 
-        // Here given provisions to get the
-        // value of GBP and EUR for INR
-        if (currency.equalsIgnoreCase("INR")) {
+
+        if (currency.equalsIgnoreCase("BRL")) {
             otherCurrencies.add("GBP");
             otherCurrencies.add("EUR");
         }
 
-        // Here given provisions to get the
-        // value of INR and EUR for GBP
+
         if (currency.equalsIgnoreCase("GBP")) {
-            otherCurrencies.add("INR");
+            otherCurrencies.add("BRL");
             otherCurrencies.add("EUR");
         }
 
-        // Here given provisions to get the value
-        // of GBP and INR for EUR
+
         if (currency.equalsIgnoreCase("EUR")) {
-            otherCurrencies.add("INR");
+            otherCurrencies.add("BRL");
             otherCurrencies.add("GBP");
         }
         while (jsonTokenizer.hasMoreTokens()) {
@@ -79,7 +76,7 @@ public class ExchangeRateController {
         con.setRequestProperty("User-Agent", "Mozilla/5.0");
         int responseCode = con.getResponseCode();
         System.out.println("\nSending 'GET' request to URL : " + url);
-        // System.out.println("Response Code : " + responseCode);
+
         try (BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()))) {
             String line;

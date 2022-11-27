@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -210,7 +211,7 @@ public class AuthController {
 
     @RequestMapping("/getExchangeRateDetailsByCurrency")
     public @ResponseBody
-    JsonObject getExchangeRateDetails(String  currency) throws IOException {
+    JsonObject getExchangeRateDetails(@RequestBody String currency) throws IOException {
 
         JsonObject jsonObject = new JsonObject();
         String data = getExchangeRateData(currency);
@@ -220,24 +221,20 @@ public class AuthController {
         String expectedExchangeRateOutput = null;
         ArrayList otherCurrencies = new ArrayList();
 
-        // Here given provisions to get the
-        // value of GBP and EUR for INR
-        if (currency.equalsIgnoreCase("INR")) {
+
+        if (currency.equalsIgnoreCase("BRL")) {
             otherCurrencies.add("GBP");
-            otherCurrencies.add("EUR");
+            otherCurrencies.add("USD");
         }
 
-        // Here given provisions to get the
-        // value of INR and EUR for GBP
         if (currency.equalsIgnoreCase("GBP")) {
-            otherCurrencies.add("INR");
-            otherCurrencies.add("EUR");
+            otherCurrencies.add("BRL");
+            otherCurrencies.add("USD");
         }
 
-        // Here given provisions to get the value
-        // of GBP and INR for EUR
-        if (currency.equalsIgnoreCase("EUR")) {
-            otherCurrencies.add("INR");
+
+        if (currency.equalsIgnoreCase("USD")) {
+            otherCurrencies.add("BRL");
             otherCurrencies.add("GBP");
         }
         while (jsonTokenizer.hasMoreTokens()) {
@@ -258,7 +255,7 @@ public class AuthController {
         return jsonObject;
     }
 
-    private String getExchangeRateData(String currency) throws IOException {
+    private String getExchangeRateData(@RequestBody String currency) throws IOException {
         String data;
         StringBuilder responseData = new StringBuilder();
         JsonObject jsonObject = null;
@@ -269,7 +266,7 @@ public class AuthController {
         con.setRequestProperty("User-Agent", "Mozilla/5.0");
         int responseCode = con.getResponseCode();
         System.out.println("\nSending 'GET' request to URL : " + url);
-        // System.out.println("Response Code : " + responseCode);
+
         try (BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()))) {
             String line;
